@@ -20,7 +20,7 @@
             this[name] = new func(this);
         },
         
-        //for some reson we could stop the program running
+        //for some reson we have to stop the program running
         deleteSelf: function(msg){
             delete window[TTS];
             throw new Error(msg);
