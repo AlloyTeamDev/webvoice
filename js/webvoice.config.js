@@ -6,7 +6,12 @@
 
 $AM_d("config", function(M){
     this.__proto__ = {
-        ROOT_PATH: "voice/"
+        //voice 根目录
+        ROOT_PATH: "voice/",
+
+        //缓冲区大小
+        BUFFER_LENTH: 5
+
     };
     this.init = function(){
     };
