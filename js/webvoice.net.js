@@ -11,7 +11,7 @@ $AM_d("net", function(M){
         console.log("\n---------------------");
         console.log("load word file: " + word);
 
-        var url = M.config.ROOT_PATH + word + "2.mp3?" + (+ new Date());
+        var url = M.config.ROOT_PATH + word + "3.mp3&" + (+ new Date());
 
         console.log("url: " + url);
 

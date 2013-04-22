@@ -34,8 +34,8 @@
         read: function(word){
             this.word = word;
             this.readyForBufferQueue();
+
             this.addEventListener("initBufferQueueReady", function(){
-                alert("OK");
             });
         },
 
