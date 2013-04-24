@@ -11,13 +11,21 @@
         //声音文件缓冲队列
         voiceQueue: [],
 
-        word: "",
+        //没有读的word队列
+        unreadWordQueue: [],
+
+        //读过的word队列
+        readedWordQueue: [],
 
         //eventStack
         event: {},
 
         module: function(name, func){
             this[name] = new func(this);
+        },
+
+        ready: function(func){
+            this.addEventListener("ready", func);
         },
         
         //for some reson we have to stop the program running
@@ -27,15 +35,41 @@
         },
 
         init: function(){
-            this.dorsyAudio.init();
-            this.text.readWord();
+            //初始化请求数据
+
+            if(this.pinyin.status.readyState){
+                this.dorsyAudio.init();
+                this.text.readWords();
+
+                this.fireEvent("ready");
+            }else{
+                this.pinyin.init();
+            }
         },
 
         read: function(word){
-            this.word = word;
+            this.unreadWordQueue = word.split("");
             this.readyForBufferQueue();
 
+            var _this = this;
+
             this.addEventListener("initBufferQueueReady", function(){
+                function read(){
+                    _this.text.playOneWord();
+
+                    setTimeout(function(){
+                        read();
+                    }, 200);
+                }
+
+                read();
+
+                //把前5个去除
+                _this.unreadWordQueue = _this.unreadWordQueue.slice(5);
+                
+                //请求其他的word进入缓冲区
+                _this.text.requestWordBuffer();
+                
             });
         },
 
@@ -70,7 +104,7 @@
 
             //并发请求文件进入缓冲区
             for(var i = 0; i < bufferLen; i ++){
-                this.net.loadFile(this.word[i], function(i){
+                this.net.loadFile(this.unreadWordQueue[i], function(i){
                     return function(response){
                         console.log("XHR loadFile Success", ", position: ", i);
 
@@ -105,6 +139,10 @@
        //read text
        read: function(word){
             Main.read(word);
+       },
+
+       ready: function(func){
+            Main.ready(func);
        }
     };
 

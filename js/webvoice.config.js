@@ -7,7 +7,7 @@
 $AM_d("config", function(M){
     this.__proto__ = {
         //voice 根目录
-        ROOT_PATH: "voice/getVoice.php?word=",
+        ROOT_PATH: "mp3/",
 
         //缓冲区大小
         BUFFER_LENTH: 5

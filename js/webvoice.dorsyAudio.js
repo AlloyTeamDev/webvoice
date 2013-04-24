@@ -16,10 +16,8 @@ $AM_d("dorsyAudio", function(M){
         (window.webkitAudioContext && (this.ctx = new webkitAudioContext())) || M.deleteSelf("不支持web audio api,请使用webkit内核浏览器");
     };
 
-    //从缓冲队列中读取一个文字并解码
-    this.readOneWord = function(){
-        var voiceBuffer = M.voiceQueue.shift();
-
+    //播放buffer
+    this.playBuffer = function(voiceBuffer){
         //解码
         this.ctx.decodeAudioData(voiceBuffer, function(buffer){
             var source = _this.ctx.createBufferSource();
@@ -28,4 +26,5 @@ $AM_d("dorsyAudio", function(M){
             source.noteOn(0);
         });
     };
+
 });
